@@ -1,0 +1,8 @@
+# Local dependencies and generated output.
+node_modules/
+dist/
+
+# Logs and OS metadata.
+*.log
+.DS_Store
+Thumbs.db

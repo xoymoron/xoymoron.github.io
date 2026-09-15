@@ -1,0 +1,16 @@
+{
+  "name": "xoymoron.github.io",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Personal website for xoymoron",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs --dist",
+    "check": "node --check app.js && node --check content.js && node --check scripts/build.mjs && node --check scripts/serve.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
