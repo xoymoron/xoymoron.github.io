@@ -6,16 +6,15 @@ const routeNames = new Map([
   ['about', 'About'],
   ['experiences', 'Experiences'],
   ['publications', 'Publications'],
-  ['works', 'Works'],
+  // ['works', 'Works'],
   ['cv', 'CV'],
-  ['blog', 'Blog'],
+  // ['blog', 'Blog'],
   // ['contact', 'Contact'],
   ['studio', 'Studio'],
 ]);
 const themeStorageKey = 'xoymoron-theme';
 const root = document.documentElement;
 const themeButton = document.querySelector('.theme-toggle');
-const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
 let preferredTheme = null;
 
 // DOM helpers keep content as text, never raw HTML.
@@ -105,7 +104,7 @@ function setTheme(theme) {
   themeButton.querySelector('.theme-label').textContent = isDark ? 'Light' : 'Dark';
 
   // Match --paper in styles.css and the early theme script in index.html.
-  document.querySelector('meta[name="theme-color"]').content = isDark ? '#151715' : '#eef0eb';
+  document.querySelector('meta[name="theme-color"]').content = isDark ? '#090909' : '#efeee8';
 }
 
 function initializeTheme() {
@@ -115,7 +114,7 @@ function initializeTheme() {
     // Storage may be unavailable in private browsing.
   }
   if (!['light', 'dark'].includes(preferredTheme)) preferredTheme = null;
-  setTheme(preferredTheme || (systemTheme.matches ? 'dark' : 'light'));
+  setTheme(preferredTheme || 'dark');
 
   themeButton.addEventListener('click', () => {
     preferredTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
@@ -127,41 +126,53 @@ function initializeTheme() {
     }
   });
 
-  systemTheme.addEventListener('change', (event) => {
-    if (!preferredTheme) setTheme(event.matches ? 'dark' : 'light');
-  });
-
   window.addEventListener('storage', (event) => {
     if (event.key !== themeStorageKey && event.key !== null) return;
     preferredTheme = ['light', 'dark'].includes(event.newValue) ? event.newValue : null;
-    setTheme(preferredTheme || (systemTheme.matches ? 'dark' : 'light'));
+    setTheme(preferredTheme || 'dark');
   });
 }
 
 // Content renderers run once when the page loads.
 function renderProfile() {
   for (const node of document.querySelectorAll('[data-profile="name"]')) {
-    node.textContent = content.profile.name;
+    node.textContent = content.profile.name || '';
   }
   const posNode = document.querySelector('[data-profile="position"]');
+  const divider = document.querySelector('.about-divider');
   if (posNode) {
     if (content.profile.position) {
       posNode.textContent = content.profile.position;
       posNode.hidden = false;
+      if (divider) divider.hidden = false;
     } else {
       posNode.hidden = true;
+      if (divider) divider.hidden = true;
     }
   }
-  document.querySelector('[data-profile="bio"]').replaceChildren(
-    ...content.profile.bio.map((paragraph) => element('p', '', paragraph)),
-  );
+  const bioContainer = document.querySelector('[data-profile="bio"]');
+  if (bioContainer && Array.isArray(content.profile.bio)) {
+    bioContainer.replaceChildren(
+      ...content.profile.bio.map((paragraph) => element('p', '', paragraph)),
+    );
+  }
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc && content.profile.name && content.profile.bio?.[0]) {
+    metaDesc.content = `${content.profile.name} — ${content.profile.bio[0]}`;
+  }
 }
 
 function renderNews() {
+  const section = document.querySelector('[aria-labelledby="news-title"]');
   const list = document.querySelector('.news-list');
   if (!list) return;
   const items = content.news || [];
-  if (items.length === 0) return;
+  if (items.length === 0) {
+    if (section) section.hidden = true;
+    list.replaceChildren();
+    return;
+  }
+  if (section) section.hidden = false;
   list.replaceChildren(
     ...items.map((item) => {
       const li = element('li', 'news-item');
@@ -176,10 +187,90 @@ function renderNews() {
 
 function renderExperiences() {
   fillList('#experience-list', content.experiences, (item) => {
-    const { row, details } = baseEntry(item.period, item.role);
-    if (item.organization) details.append(element('p', 'entry-subtitle', item.organization));
-    if (item.description) details.append(element('p', 'entry-detail', item.description));
-    appendLinks(details, item.links);
+    const row = element('article', 'entry experience-entry');
+
+    // Row 1: Lab & Institution (Left) + Period (Right)
+    const headerRow = element('div', 'exp-row exp-header');
+    const headerMain = element('div', 'exp-main');
+    const title = element('div', 'exp-title');
+
+    if (item.lab) {
+      const labUrl = safeUrl(item.labUrl);
+      if (labUrl) {
+        const labLink = element('a', 'experience-link', item.lab);
+        labLink.href = labUrl;
+        labLink.target = '_blank';
+        labLink.rel = 'noopener noreferrer';
+        title.append(labLink);
+      } else {
+        title.append(item.lab);
+      }
+      if (item.institution) {
+        title.append(`, ${item.institution}`);
+      }
+    } else if (item.organization) {
+      title.append(item.organization);
+    } else if (item.role) {
+      title.append(item.role);
+    }
+    headerMain.append(title);
+    headerRow.append(headerMain);
+
+    if (item.period) {
+      const headerSide = element('div', 'exp-side');
+      headerSide.append(element('span', 'exp-date', item.period));
+      headerRow.append(headerSide);
+    }
+    row.append(headerRow);
+
+    // Row 2: Role & Advisor (Left) + Location (Right)
+    const subRow = element('div', 'exp-row exp-sub');
+    const subMain = element('div', 'exp-main');
+    const roleP = element('p', 'exp-role');
+
+    if (item.role) {
+      roleP.append(item.role);
+    }
+
+    if (item.advisor) {
+      const advSpan = element('span', 'exp-advisor');
+      advSpan.append(' (Advisor: ');
+
+      const advisorText = item.advisor;
+      const titlePrefix = advisorText.startsWith('Prof. ') ? 'Prof. ' : '';
+      const nameOnly = titlePrefix ? advisorText.slice(titlePrefix.length) : advisorText;
+
+      if (titlePrefix) advSpan.append(titlePrefix);
+
+      const advisorUrl = safeUrl(item.advisorUrl);
+      if (advisorUrl) {
+        const advLink = element('a', 'experience-link', nameOnly);
+        advLink.href = advisorUrl;
+        advLink.target = '_blank';
+        advLink.rel = 'noopener noreferrer';
+        advSpan.append(advLink);
+      } else {
+        advSpan.append(nameOnly);
+      }
+      advSpan.append(')');
+      roleP.append(' ', advSpan);
+    }
+    subMain.append(roleP);
+    subRow.append(subMain);
+
+    if (item.location) {
+      const subSide = element('div', 'exp-side');
+      subSide.append(element('span', 'exp-location', item.location));
+      subRow.append(subSide);
+    }
+    row.append(subRow);
+
+    // Row 3: Description / Topic
+    if (item.description) {
+      row.append(element('p', 'exp-detail', item.description));
+    }
+
+    appendLinks(row, item.links);
     return row;
   });
 }
@@ -431,13 +522,28 @@ function renderPost(slug) {
 }
 
 function renderContacts() {
-  const contacts = [...content.profile.links];
+  const links = Array.isArray(content.profile.links) ? content.profile.links : [];
+  const contacts = [...links];
   if (content.profile.email) {
     contacts.unshift({
       label: 'Email',
       text: content.profile.email,
       url: 'mailto:' + content.profile.email,
     });
+    const emailLink = document.querySelector('.social-footer a[href^="mailto:"]');
+    if (emailLink) {
+      emailLink.href = 'mailto:' + content.profile.email;
+      emailLink.setAttribute('aria-label', `Email ${content.profile.email}`);
+      emailLink.title = content.profile.email;
+    }
+  }
+
+  for (const item of links) {
+    if (!item.label || !item.url) continue;
+    const socialLink = document.querySelector(`.social-footer a[aria-label="${item.label}"]`);
+    if (socialLink) {
+      socialLink.href = item.url;
+    }
   }
 
   const rows = [];
@@ -484,7 +590,7 @@ function showRoute({ moveFocus = false } = {}) {
     if (audio.closest('.page').hidden) audio.pause();
   }
 
-  const postTitle = renderPost(route === 'blog' ? rest.join('/') : '');
+  const postTitle = route === 'blog' ? renderPost(rest.join('/')) : null;
   document.title = content.profile.name + ' — ' + (postTitle || routeNames.get(route));
   if (moveFocus) {
     document.querySelector('#main').focus({ preventScroll: true });

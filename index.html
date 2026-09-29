@@ -1,18 +1,18 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
-    <meta name="theme-color" content="#eef0eb">
+    <meta name="theme-color" content="#090909">
     <meta name="description" content="Minjun Kim — I explore audical noises.">
     <title>Minjun Kim — About</title>
     <link rel="icon" href="data:,">
-    <link rel="preload" href="assets/fonts/Archivo.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="assets/fonts/SpaceGrotesk.ttf" as="font" type="font/ttf" crossorigin>
     <script>
       // Apply the saved theme before the stylesheet loads.
       (() => {
-        let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        let theme = 'dark';
         try {
           const saved = localStorage.getItem('xoymoron-theme');
           if (saved === 'light' || saved === 'dark') theme = saved;
@@ -20,23 +20,37 @@
           // Storage may be unavailable in private browsing.
         }
         document.documentElement.dataset.theme = theme;
-        document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#151715' : '#eef0eb';
+        document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#090909' : '#efeee8';
       })();
     </script>
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="app.js"></script>
+    <script type="module" src="glitch.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
+    <div class="glitch-field" aria-hidden="true">
+      <div class="glitch-mark">
+        <div class="mark-base"></div>
+        <div class="mark-slice mark-slice-a"></div>
+        <div class="mark-slice mark-slice-b"></div>
+      </div>
+      <div class="diagram-mark">
+        <div class="diagram-base"></div>
+        <div class="diagram-slice diagram-slice-a"></div>
+        <div class="diagram-slice diagram-slice-b"></div>
+      </div>
+      <canvas class="glitch-pixels"></canvas>
+    </div>
     <div class="site-shell">
       <header class="site-header">
         <nav class="site-nav" aria-label="Main navigation">
           <a href="#about" aria-current="page">About</a>
           <a href="#experiences">Experiences</a>
           <a href="#publications">Publications</a>
-          <a href="#works">Works</a>
+          <!-- <a href="#works">Works</a> -->
           <a href="#cv">CV</a>
-          <a href="#blog">Blog</a>
+          <!-- <a href="#blog">Blog</a> -->
           <!-- <a href="#contact">Contact</a> -->
         </nav>
         <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode">
@@ -53,23 +67,16 @@
         <section class="page about-page" id="about" aria-labelledby="about-title">
           <div class="about-layout">
             <div class="about-copy">
-              <h1 id="about-title" class="name-title" data-profile="name">Minjun Kim</h1>
-              <p class="name-position" data-profile="position">Undergraduate Student, Yonsei University</p>
-              <!-- Fallback copy; keep it aligned with profile.bio in content.js. -->
-              <div class="about-introduction" data-profile="bio">
-                <p>I explore audical noises.</p>
-              </div>
+              <h1 id="about-title" class="name-title" data-profile="name"></h1>
+              <p class="name-position" data-profile="position" hidden></p>
+              <hr class="about-divider" hidden>
+              <div class="about-introduction" data-profile="bio"></div>
             </div>
           </div>
 
           <section class="about-section" aria-labelledby="news-title">
             <h2 id="news-title">News</h2>
-            <ul class="news-list">
-              <li class="news-item">
-                <span class="news-date">Sep. 2026</span>
-                <span class="news-text">My personal website is now live!</span>
-              </li>
-            </ul>
+            <ul class="news-list"></ul>
           </section>
 
           <!-- Selected Publications: leave commented out until ready.
@@ -100,6 +107,7 @@
           </div>
         </section>
 
+        <!-- Works page disabled
         <section class="page" id="works" aria-label="Works" hidden>
           <div class="entry-list" id="work-list">
             <div class="empty-state">
@@ -108,6 +116,7 @@
             </div>
           </div>
         </section>
+        -->
 
         <section class="page" id="cv" aria-label="Curriculum Vitae" hidden>
           <div id="cv-content">
@@ -120,6 +129,7 @@
           </div>
         </section>
 
+        <!-- Blog page disabled
         <section class="page" id="blog" aria-label="Blog" hidden>
           <div id="blog-index">
             <div class="entry-list" id="post-list">
@@ -131,6 +141,7 @@
           </div>
           <article id="blog-article" class="blog-article" hidden></article>
         </section>
+        -->
 
         <!-- Studio: Hidden tab for editing News, Blog and portfolio content -->
         <section class="page studio-page" id="studio" aria-label="Studio" hidden>

@@ -16,8 +16,9 @@ A lightweight, zero-dependency static personal portfolio and academic website bu
 ├── index.html          # Page layout, navigation shell, and metadata fallbacks
 ├── content.js          # Centralized data (Profile, Publications, Works, Blog)
 ├── app.js              # Client-side routing, DOM rendering, and theme toggling
+├── glitch.js           # Irregular color breaks and pixel flickers
 ├── styles.css          # Design system, CSS variables, typography, and responsive rules
-└── assets/             # Static assets (fonts, audio, PDFs, images)
+└── assets/             # Fonts, the two abstract marks, audio, PDFs, and images
 ```
 
 ## Local Preview
@@ -133,4 +134,4 @@ posts: [
 
 ## License
 
-Font files are distributed under the [SIL Open Font License](assets/fonts/OFL.txt).
+Archivo and Space Grotesk are distributed under their respective SIL Open Font Licenses in `assets/fonts/OFL.txt` and `assets/fonts/SpaceGrotesk-OFL.txt`.

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 720" fill="none" aria-hidden="true">
+  <g stroke="#9f9ca3" stroke-linecap="square" opacity=".74">
+    <animateTransform attributeName="transform" type="translate" values="0 0;25 -16;-21 24;0 0" dur="157s" repeatCount="indefinite"/>
+    <path d="M68 133H341M374 133H672M118 153H281M342 153H738" stroke-width="1"/>
+    <path d="M138 94V272M157 44V196M641 40V276M662 111V360" stroke-width=".8"/>
+    <path d="M104 556H308M357 556H722M131 578H392M464 578H751" stroke-width="1"/>
+    <path d="M263 487 495 95M284 520 579 59M463 653 708 248" stroke-width=".8"/>
+    <path d="M93 331 283 300 328 351M365 359 543 333 619 404M614 435 754 419" stroke-width="1.2">
+      <animate attributeName="d" values="M93 331 283 300 328 351M365 359 543 333 619 404M614 435 754 419;M93 334 269 311 338 361M365 350 554 318 625 397M614 449 754 408;M93 331 283 300 328 351M365 359 543 333 619 404M614 435 754 419" dur="89s" repeatCount="indefinite"/>
+    </path>
+    <path d="M361 60 343 246 396 296M417 326 355 463 377 639" stroke-width=".9"/>
+    <path d="M751 175 677 299 756 350 698 485" stroke-width="1.1"/>
+  </g>
+  <g stroke="#cac5ca" opacity=".7">
+    <animateTransform attributeName="transform" type="rotate" values="0 410 360;7 410 360;-6 410 360;0 410 360" dur="193s" repeatCount="indefinite"/>
+    <circle cx="235" cy="277" r="116" stroke-width="1.3" stroke-dasharray="135 24 32 16 163 20 72 16 190 32">
+      <animate attributeName="r" values="116;132;101;116" dur="101s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="277;258;293;277" dur="131s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="612" cy="443" r="146" stroke-width="1" stroke-dasharray="224 21 48 32 155 20 260 46">
+      <animate attributeName="r" values="146;125;163;146" dur="139s" repeatCount="indefinite"/>
+      <animate attributeName="cx" values="612;631;590;612" dur="167s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="528" cy="177" r="45" stroke-width=".9" stroke-dasharray="57 12 103 21 70 18">
+      <animate attributeName="r" values="45;59;34;45" dur="83s" repeatCount="indefinite"/>
+    </circle>
+    <path d="M129 277h52m92 0h117M612 254v76m0 227v73" stroke-width=".8"/>
+  </g>
+  <g stroke="#a394aa" opacity=".66">
+    <animateTransform attributeName="transform" type="translate" values="0 0;-23 17;21 -13;0 0" dur="127s" repeatCount="indefinite"/>
+    <path d="M102 126H302M381 140H686M345 549H609" stroke-width="2" transform="translate(8 -5)"/>
+    <path d="M232 159a117 117 0 0 1 75 33M488 555a146 146 0 0 1-16-141" stroke-width="2.2" transform="translate(-7 4)"/>
+  </g>
+  <g opacity=".84">
+    <animateTransform attributeName="transform" type="translate" values="0 0;19 -23;-21 17;0 0" dur="179s" repeatCount="indefinite"/>
+    <path d="m307 275 39-15-11 32Z" fill="#e58eae"/>
+    <path d="m612 393 34 6-27 24Z" fill="#aaa0dd"/>
+    <path d="m443 117 19-9-3 30Z" fill="#e5c581"/>
+  </g>
+  <g fill="#9f9ca3" opacity=".62">
+    <rect x="315" y="126" width="3" height="3"/><rect x="322" y="127" width="2" height="2"/>
+    <rect x="560" y="329" width="2" height="3"/><rect x="569" y="327" width="3" height="2"/>
+    <rect x="384" y="548" width="2" height="3"/><rect x="391" y="546" width="4" height="2"/>
+    <rect x="695" y="417" width="3" height="2"/><rect x="706" y="414" width="2" height="3"/>
+  </g>
+  <g stroke="#dad6d6" stroke-width=".7" opacity=".58">
+    <path d="m284 167 7-12m2 18 8-15m5 19 5-11m225 361 14 4m-12 3 17 5m-15 3 14 4"/>
+    <path d="m611 366 15-3m-13 8 18-4m-17 10 11-2"/>
+  </g>
+</svg>

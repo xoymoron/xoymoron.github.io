@@ -7,30 +7,38 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("assets/fonts/SpaceGrotesk.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+}
+
 :root {
-  color-scheme: light;
-  --paper: #eef0eb;
-  --ink: #20231f;
-  --muted: #60665d;
-  --line: #c5c9c0;
-  --faint: #dce0d7;
-  --accent: #bd3b20;
-  --hover: #e4e7df;
-  --selection: #d5dbca;
-  --sans: Archivo, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: dark;
+  --paper: #090909;
+  --ink: #eeede7;
+  --muted: #a7a8a1;
+  --line: #3b3d39;
+  --faint: #20211e;
+  --accent: #bdaec0;
+  --hover: #22241e;
+  --selection: #454b2d;
+  --sans: "Space Grotesk", Archivo, "Helvetica Neue", Arial, sans-serif;
   --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --paper: #151715;
-  --ink: #e7e9e2;
-  --muted: #a2a99c;
-  --line: #3e443b;
-  --faint: #272c25;
-  --accent: #ef7859;
-  --hover: #20251e;
-  --selection: #45503b;
+:root[data-theme="light"] {
+  color-scheme: light;
+  --paper: #efeee8;
+  --ink: #1b1d19;
+  --muted: #61645d;
+  --line: #c3c5bd;
+  --faint: #dfe0d9;
+  --accent: #625966;
+  --hover: #e0e2da;
+  --selection: #d3d7aa;
 }
 
 /* Base elements. */
@@ -52,6 +60,110 @@ body {
   font-size: 1rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Artwork blends across text while leaving its light strokes legible. */
+.glitch-field {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+:root[data-theme="light"] .glitch-field {
+  mix-blend-mode: multiply;
+}
+
+.glitch-mark {
+  position: absolute;
+  top: 5%;
+  right: -3%;
+  width: min(46vw, 540px);
+  aspect-ratio: 500 / 650;
+  animation: mark-drift 143s ease-in-out infinite alternate;
+}
+
+.diagram-mark {
+  position: absolute;
+  top: 41%;
+  left: max(-310px, -23vw);
+  width: min(57vw, 700px);
+  aspect-ratio: 820 / 720;
+  animation: diagram-drift 181s ease-in-out infinite alternate;
+}
+
+.mark-base,
+.mark-slice,
+.diagram-base,
+.diagram-slice {
+  position: absolute;
+  inset: 0;
+}
+
+.mark-base,
+.mark-slice {
+  background: url("assets/crooked-mark.svg") center / contain no-repeat;
+}
+
+.diagram-base,
+.diagram-slice {
+  background: url("assets/dislocated-diagram.svg") center / contain no-repeat;
+}
+
+.mark-base {
+  opacity: .79;
+}
+
+.mark-slice {
+  opacity: .18;
+  mix-blend-mode: screen;
+}
+
+.mark-slice-a {
+  clip-path: inset(24% 0 66% 0);
+  transform: translateX(6px);
+  animation: glitch-offset-a 11s steps(1, end) infinite;
+}
+
+.mark-slice-b {
+  clip-path: inset(62% 0 27% 0);
+  transform: translateX(-5px);
+  animation: glitch-offset-b 17s steps(1, end) infinite;
+}
+
+.diagram-base {
+  opacity: .7;
+  animation: diagram-tone 97s ease-in-out infinite alternate;
+}
+
+.diagram-slice {
+  opacity: .18;
+}
+
+.diagram-slice-a {
+  clip-path: inset(18% 0 76% 0);
+  filter: sepia(1) saturate(6) hue-rotate(285deg);
+  animation: glitch-offset-a 8s steps(1, end) infinite;
+}
+
+.diagram-slice-b {
+  clip-path: inset(71% 0 22% 0);
+  filter: sepia(1) saturate(6) hue-rotate(185deg);
+  animation: glitch-offset-b 13s steps(1, end) infinite;
+}
+
+.glitch-pixels {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+:root[data-theme="light"] .glitch-mark,
+:root[data-theme="light"] .diagram-mark {
+  filter: invert(1);
 }
 
 button, input, textarea {
@@ -109,6 +221,8 @@ img {
 
 /* Shell and navigation. */
 .site-shell {
+  position: relative;
+  z-index: 1;
   width: min(100% - 112px, 1200px);
   margin-inline: auto;
   min-height: 100svh;
@@ -193,7 +307,7 @@ img {
   right: 0;
   height: 1px;
   content: "";
-  background: var(--ink);
+  background: var(--accent);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform .18s ease;
@@ -242,6 +356,7 @@ main {
   line-height: 1.04;
   letter-spacing: -.065em;
   margin-left: -.04em;
+  animation: title-misregister 19s steps(1, end) infinite;
 }
 
 .name-position {
@@ -252,10 +367,17 @@ main {
   line-height: 1.5;
 }
 
+.about-divider {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 28px 0 30px;
+}
+
 .about-introduction {
   font-size: 1.125rem;
   line-height: 1.85;
-  margin-top: 28px;
+  margin-top: 0;
   color: var(--muted);
   text-wrap: pretty;
 }
@@ -431,8 +553,83 @@ main {
   color: var(--accent);
 }
 
-.entry-subtitle {
-  margin-top: 8px;
+.experience-entry {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 0 34px;
+  border-bottom: 1px solid var(--line);
+}
+
+.exp-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20px;
+}
+
+.exp-row + .exp-row {
+  margin-top: 5px;
+}
+
+.exp-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.exp-side {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.experience-entry .exp-title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.experience-entry .exp-date {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.experience-entry .exp-role {
+  font-size: 0.8125rem;
+  color: var(--ink);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.experience-entry .exp-advisor {
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+
+.experience-entry .exp-location {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.experience-entry .exp-detail {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+.experience-link {
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity 0.16s ease;
+}
+
+.experience-link:hover {
+  text-decoration: none;
+  opacity: 0.75;
 }
 
 .entry-detail {
@@ -750,6 +947,39 @@ main {
 }
 
 /* Motion. */
+@keyframes mark-drift {
+  from { transform: translate3d(0, 0, 0) rotate(-1deg); }
+  to { transform: translate3d(-13px, 19px, 0) rotate(1deg); }
+}
+
+@keyframes diagram-drift {
+  from { transform: translate3d(8px, -13px, 0) rotate(1deg); }
+  to { transform: translate3d(-10px, 17px, 0) rotate(-1deg); }
+}
+
+@keyframes diagram-tone {
+  from { filter: hue-rotate(-7deg) saturate(.8); }
+  to { filter: hue-rotate(12deg) saturate(1.15); }
+}
+
+@keyframes glitch-offset-a {
+  0%, 14%, 16%, 47%, 49%, 100% { opacity: .24; transform: translateX(6px); }
+  14.1%, 15.9% { opacity: .92; transform: translateX(18px); }
+  47.1%, 48.9% { opacity: .68; transform: translateX(-11px); }
+}
+
+@keyframes glitch-offset-b {
+  0%, 28%, 30%, 74%, 76%, 100% { opacity: .24; transform: translateX(-5px); }
+  28.1%, 29.9% { opacity: .76; transform: translateX(-19px); }
+  74.1%, 75.9% { opacity: .84; transform: translateX(13px); }
+}
+
+@keyframes title-misregister {
+  0%, 21%, 22%, 69%, 70%, 100% { text-shadow: none; transform: translateX(0); }
+  21.1%, 21.9% { text-shadow: 2px 0 var(--accent), -2px 0 var(--paper); transform: translateX(1px); }
+  69.1%, 69.9% { text-shadow: -2px 0 var(--accent), 2px 0 var(--paper); transform: translateX(-1px); }
+}
+
 @keyframes reveal {
   from {
     opacity: 0;
@@ -807,6 +1037,26 @@ main {
 }
 
 @media (max-width: 600px) {
+  .glitch-mark {
+    top: 13%;
+    right: -37%;
+    width: 95vw;
+  }
+
+  .diagram-mark {
+    top: 53%;
+    left: -91%;
+    width: 150vw;
+  }
+
+  .mark-base {
+    opacity: .68;
+  }
+
+  .diagram-base {
+    opacity: .5;
+  }
+
   .site-shell {
     width: calc(100% - 40px);
   }
@@ -845,8 +1095,12 @@ main {
     margin-top: 10px;
   }
 
+  .about-divider {
+    margin: 20px 0 24px;
+  }
+
   .about-introduction {
-    margin-top: 22px;
+    margin-top: 0;
     font-size: 1rem;
     line-height: 1.8;
   }
@@ -874,6 +1128,20 @@ main {
   .entry, .work-entry, .work-entry.with-cover {
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
+  }
+
+  .exp-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+  }
+
+  .exp-row + .exp-row {
+    margin-top: 6px;
+  }
+
+  .exp-side {
+    text-align: left;
   }
 
   .work-cover {
@@ -1030,7 +1298,7 @@ main {
 
 .studio-btn-primary {
   background: var(--accent);
-  color: #fff;
+  color: var(--paper);
   border-color: var(--accent);
 }
 
@@ -1698,6 +1966,14 @@ main {
     scroll-behavior: auto;
   }
 
+  .mark-base, .mark-slice {
+    background-image: url("assets/crooked-mark-still.svg");
+  }
+
+  .diagram-base, .diagram-slice {
+    background-image: url("assets/dislocated-diagram-still.svg");
+  }
+
   *, *::before, *::after {
     animation: none !important;
     transition: none !important;
@@ -1707,7 +1983,7 @@ main {
 
 /* Print. */
 @media print {
-  :root, :root[data-theme="dark"] {
+  :root, :root[data-theme="dark"], :root[data-theme="light"] {
     --paper: white;
     --ink: black;
     --muted: #555;
@@ -1719,7 +1995,7 @@ main {
     width: 100%;
   }
 
-  .site-header, .social-footer, .skip-link {
+  .site-header, .social-footer, .skip-link, .glitch-field {
     display: none;
   }
 

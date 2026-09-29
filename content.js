@@ -4,7 +4,7 @@ export const content = {
   // About and Contact.
   profile: {
     name: 'Minjun Kim',
-    position: 'Undergraduate Student, Yonsei University',
+    position: 'Undergraduate Student @ Yonsei University',
     // Each item becomes a paragraph. Keep the HTML fallback in sync.
     bio: [
       'I explore audical noises.',
@@ -21,12 +21,46 @@ export const content = {
   news: [
     {
       date: 'Sep. 2026',
-      text: 'Personal website launched.',
+      text: 'My personal website is now live!',
     },
   ],
 
   // Lists keep their input order; empty lists show an empty state.
-  experiences: [],
+  experiences: [
+    {
+      period: 'Jun. 2026 – Present',
+      role: 'Undergraduate Research Intern',
+      lab: 'Speech & Language AI (SLAI) Lab',
+      labUrl: 'https://slai.yonsei.ac.kr/',
+      institution: 'Yonsei University',
+      location: 'Seoul, Korea',
+      advisor: 'Prof. Eunwoo Song',
+      advisorUrl: 'https://sewplay.github.io/',
+      description: 'TTS, Speech Enhancement, Neural Audio Codec, Singing Voice Synthesis',
+    },
+    {
+      period: 'Jan. 2026 – Feb. 2026',
+      role: 'Undergraduate Research Intern',
+      lab: 'Music & Audio Research Group (MARG)',
+      labUrl: 'https://snu-marg.notion.site/',
+      institution: 'Seoul National University',
+      location: 'Suwon, Korea',
+      advisor: 'Prof. Kyogu Lee',
+      advisorUrl: '',
+      description: 'Explored differentiable digital signal processing, timbre modeling, and synthesizer sound matching.',
+    },
+    {
+      period: 'Jun. 2025 – Sep. 2025',
+      role: 'Undergraduate Research Intern',
+      lab: 'Music & Arts Learning (MALer) Lab',
+      labUrl: 'https://malerlab.github.io/',
+      institution: 'Sogang University',
+      location: 'Seoul, Korea',
+      advisor: 'Prof. Dasaem Jeong',
+      advisorUrl: 'https://jdasam.github.io/',
+      description: 'Participated in research on music information retrieval, focusing on genre classification and text-to-music generation.',
+    },
+  ],
 
   // Publications. Authors matching profile.name are bold, others are muted.
   publications: [

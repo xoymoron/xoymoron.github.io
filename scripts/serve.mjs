@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const projectDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const publicDir = process.argv.includes('--dist') ? resolve(projectDir, 'dist') : projectDir;
 const port = Number(process.env.PORT || 4173);
-const publicFiles = new Set(['index.html', 'styles.css', 'app.js', 'studio.js', 'content.js', '.nojekyll', 'studio/index.html']);
+const publicFiles = new Set(['index.html', 'styles.css', 'app.js', 'glitch.js', 'studio.js', 'content.js', '.nojekyll', 'studio/index.html']);
 const contentTypes = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
