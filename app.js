@@ -1,4 +1,5 @@
 import { content } from './content.js';
+import { initStudio } from './studio.js';
 
 // Keep route IDs aligned with section IDs and navigation links in index.html.
 const routeNames = new Map([
@@ -8,7 +9,8 @@ const routeNames = new Map([
   ['works', 'Works'],
   ['cv', 'CV'],
   ['blog', 'Blog'],
-  ['contact', 'Contact'],
+  // ['contact', 'Contact'],
+  ['studio', 'Studio'],
 ]);
 const themeStorageKey = 'xoymoron-theme';
 const root = document.documentElement;
@@ -52,6 +54,20 @@ function link(label, value, className = 'text-link') {
   const arrow = element('span', '', '↗');
   arrow.setAttribute('aria-hidden', 'true');
   node.append(arrow);
+  return node;
+}
+
+function pubButton(label, value) {
+  const url = safeUrl(value);
+  if (!url) return null;
+
+  const node = element('a', 'pub-button', label);
+  node.href = url;
+  const parsed = new URL(url);
+  if (parsed.origin !== location.origin && parsed.protocol !== 'mailto:') {
+    node.target = '_blank';
+    node.rel = 'noopener noreferrer';
+  }
   return node;
 }
 
@@ -127,8 +143,34 @@ function renderProfile() {
   for (const node of document.querySelectorAll('[data-profile="name"]')) {
     node.textContent = content.profile.name;
   }
+  const posNode = document.querySelector('[data-profile="position"]');
+  if (posNode) {
+    if (content.profile.position) {
+      posNode.textContent = content.profile.position;
+      posNode.hidden = false;
+    } else {
+      posNode.hidden = true;
+    }
+  }
   document.querySelector('[data-profile="bio"]').replaceChildren(
     ...content.profile.bio.map((paragraph) => element('p', '', paragraph)),
+  );
+}
+
+function renderNews() {
+  const list = document.querySelector('.news-list');
+  if (!list) return;
+  const items = content.news || [];
+  if (items.length === 0) return;
+  list.replaceChildren(
+    ...items.map((item) => {
+      const li = element('li', 'news-item');
+      if (item.date) {
+        li.append(element('span', 'news-date', item.date));
+      }
+      li.append(element('span', 'news-text', item.text || ''));
+      return li;
+    }),
   );
 }
 
@@ -142,34 +184,87 @@ function renderExperiences() {
   });
 }
 
-function authorLine(names) {
-  const paragraph = element('p', 'entry-subtitle');
+function authorLine(names, isPublication = false) {
+  const paragraph = element('p', isPublication ? 'entry-subtitle pub-authors' : 'entry-subtitle');
   if (!Array.isArray(names)) {
     paragraph.textContent = names;
     return paragraph;
   }
 
-  names.forEach((name, index) => {
+  names.forEach((item, index) => {
     if (index > 0) {
       const isLast = index === names.length - 1;
       const conjunction = names.length > 2 ? ', and ' : ' and ';
       paragraph.append(isLast ? conjunction : ', ');
     }
-    paragraph.append(name === content.profile.name ? element('strong', '', name) : name);
+    const name = typeof item === 'object' && item !== null ? item.name : item;
+    const isMe = typeof item === 'object' && item !== null && 'isMe' in item
+      ? Boolean(item.isMe)
+      : name === content.profile.name;
+
+    if (isMe) {
+      paragraph.append(element('strong', 'pub-author-me', name));
+    } else {
+      paragraph.append(name);
+    }
   });
   return paragraph;
 }
 
-function publicationEntry(item, headingTag) {
-  const { row, details } = baseEntry(item.year, item.title, headingTag);
-  if (item.authors) details.append(authorLine(item.authors));
-  if (item.venue) details.append(element('p', 'entry-detail', item.venue));
-  if (item.note) details.append(element('p', 'entry-detail', item.note));
-  appendLinks(details, item.links);
+const defaultTagColors = ['#58a6ff', '#ff7b72', '#7ee787', '#d2a8ff', '#ffa657', '#56b6c2'];
+
+function publicationEntry(item, headingTag = 'h2', index = 0) {
+  const row = element('article', 'entry publication-entry');
+  const details = element('div', 'entry-content');
+  row.append(element('div', 'entry-date', item.year || ''), details);
+
+  if (item.tag) {
+    const badge = element('span', 'pub-tag', item.tag);
+    const color = item.tagColor || defaultTagColors[index % defaultTagColors.length];
+    badge.style.setProperty('--pub-tag-color', color);
+    details.append(badge);
+  }
+
+  if (item.title) {
+    details.append(element(headingTag, 'pub-title', item.title));
+  }
+
+  if (item.authors) {
+    details.append(authorLine(item.authors, true));
+  }
+
+  if (item.venue) {
+    const venueText = item.venue.startsWith('In ') ? item.venue : `In ${item.venue}`;
+    details.append(element('p', 'pub-venue', venueText));
+  }
+
+  // Uncomment to display note (e.g. Oral, Poster):
+  // if (item.note) details.append(element('p', 'entry-detail', item.note));
+
+  if (item.links && item.links.length > 0) {
+    const group = element('div', 'pub-links');
+    for (const linkItem of item.links) {
+      const btn = pubButton(linkItem.label, linkItem.url);
+      if (btn) group.append(btn);
+    }
+    if (group.childElementCount) details.append(group);
+  }
+
   return row;
 }
 
 function renderPublications() {
+  const hasCategories = content.publications.some((item) => Boolean(item.category));
+
+  if (!hasCategories) {
+    fillList('#publication-list', [content.publications], (items) => {
+      const list = element('div', 'entry-list');
+      list.append(...items.map((item, index) => publicationEntry(item, 'h2', index)));
+      return list;
+    });
+    return;
+  }
+
   // Map preserves the first appearance of each category.
   const groups = new Map();
   for (const item of content.publications) {
@@ -178,13 +273,14 @@ function renderPublications() {
     groups.get(category).push(item);
   }
 
+  let globalIndex = 0;
   fillList('#publication-list', [...groups], ([category, items]) => {
     const group = element('section', 'publication-group');
     if (category) group.append(element('h2', 'publication-group-title', category));
 
     const headingTag = category ? 'h3' : 'h2';
     const list = element('div', 'entry-list');
-    list.append(...items.map((item) => publicationEntry(item, headingTag)));
+    list.append(...items.map((item) => publicationEntry(item, headingTag, globalIndex++)));
     group.append(list);
     return group;
   });
@@ -225,18 +321,47 @@ function renderWorks() {
   });
 }
 
-function renderCv() {
-  const url = safeUrl(content.cv.file, { media: true });
-  if (!url) return;
+function showCvPlaceholder(container) {
+  container.replaceChildren();
+  const box = element('div', 'empty-state');
+  box.append(
+    element('span', 'empty-symbol', '—'),
+    element('p', '', 'The CV document will be available here soon.')
+  );
+  container.append(box);
+}
 
-  const container = document.querySelector('.document-placeholder > div');
-  container.querySelector('p').textContent = content.cv.updated
-    ? 'Updated ' + content.cv.updated
-    : 'Curriculum vitae';
-  const anchor = link('Open CV (PDF)', url);
-  anchor.target = '_blank';
-  anchor.rel = 'noopener noreferrer';
-  container.append(anchor);
+async function renderCv() {
+  const container = document.querySelector('#cv-content');
+  if (!container) return;
+
+  const url = safeUrl(content.cv.file, { media: true });
+  if (!url) {
+    showCvPlaceholder(container);
+    return;
+  }
+
+  try {
+    const res = await fetch(url, { method: 'HEAD' });
+    if (res.ok) {
+      container.replaceChildren();
+
+      const toolbar = element('div', 'cv-toolbar');
+      const openBtn = pubButton('Open PDF in New Tab', url);
+      if (openBtn) toolbar.append(openBtn);
+
+      const frame = element('iframe', 'cv-viewer');
+      frame.src = url;
+      frame.title = 'Curriculum Vitae';
+
+      container.append(toolbar, frame);
+      return;
+    }
+  } catch {
+    // File not found or request failed
+  }
+
+  showCvPlaceholder(container);
 }
 
 // Posts use stable hash URLs and a small set of text blocks.
@@ -294,7 +419,12 @@ function renderPost(slug) {
   }
 
   const heading = element('header', 'article-heading');
-  heading.append(element('p', 'entry-date', post.date), element('h1', '', post.title));
+  const dateP = element('p', 'entry-date', post.date);
+  if (post.lastModified && post.lastModified !== post.date) {
+    const modifiedSpan = element('span', 'post-last-modified', ` · Last modified: ${post.lastModified}`);
+    dateP.append(modifiedSpan);
+  }
+  heading.append(dateP, element('h1', '', post.title));
   article.append(heading, postBody(post.body || []));
   appendLinks(article, post.links);
   return post.title;
@@ -321,7 +451,8 @@ function renderContacts() {
     );
     rows.push(row);
   }
-  document.querySelector('#contact-list').replaceChildren(...rows);
+  const container = document.querySelector('#contact-list');
+  if (container) container.replaceChildren(...rows);
 }
 
 // Hash navigation keeps direct links compatible with static hosting.
@@ -384,12 +515,26 @@ function handleNavigation(event) {
 // Initialize content before displaying the requested page.
 initializeTheme();
 renderProfile();
+renderNews();
 renderExperiences();
 renderPublications();
 renderWorks();
 renderCv();
 renderPostList();
 renderContacts();
+
+initStudio(content, {
+  onContentUpdate: () => {
+    renderProfile();
+    renderNews();
+    renderExperiences();
+    renderPublications();
+    renderWorks();
+    renderCv();
+    renderPostList();
+    renderContacts();
+  },
+});
 
 document.addEventListener('click', handleNavigation);
 window.addEventListener('popstate', () => showRoute({ moveFocus: true }));

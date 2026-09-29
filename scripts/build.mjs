@@ -5,10 +5,10 @@ import { spawnSync } from 'node:child_process';
 
 const projectDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const outputDir = join(projectDir, 'dist');
-const publicFiles = ['index.html', 'styles.css', 'app.js', 'content.js', '.nojekyll', 'assets'];
+const publicFiles = ['index.html', 'styles.css', 'app.js', 'studio.js', 'content.js', '.nojekyll', 'assets', 'studio'];
 
 // Validate application code before copying public files.
-for (const file of ['app.js', 'content.js']) {
+for (const file of ['app.js', 'studio.js', 'content.js']) {
   const result = spawnSync(process.execPath, ['--check', join(projectDir, file)], {
     stdio: 'inherit',
   });

@@ -4,6 +4,7 @@ export const content = {
   // About and Contact.
   profile: {
     name: 'Minjun Kim',
+    position: 'Undergraduate Student, Yonsei University',
     // Each item becomes a paragraph. Keep the HTML fallback in sync.
     bio: [
       'I explore audical noises.',
@@ -16,36 +17,50 @@ export const content = {
     ],
   },
 
+  // News items: date in 'Mon. YYYY' format and text description.
+  news: [
+    {
+      date: 'Sep. 2026',
+      text: 'Personal website launched.',
+    },
+  ],
+
   // Lists keep their input order; empty lists show an empty state.
   experiences: [],
 
-  // Categories keep their input order. Authors matching profile.name are bold.
+  // Publications. Authors matching profile.name are bold, others are muted.
   publications: [
     {
-      category: 'International',
-      year: '2025',
-      title: 'Exploring Pansori Generation with ACE-Step',
-      authors: ['Seola Cho', 'Minjun Kim', 'Dasaem Jeong'],
-      venue: '26th International Society for Music Information Retrieval (ISMIR) Conference · Daejeon, South Korea',
-      note: 'Late Breaking/Demo',
+      year: '2026',
+      tag: 'KSMI',
+      tagColor: '#ff7b72',
+      title: 'Towards Controllable Percussion: Revisiting DrumBlender',
+      authors: ['Minjun Kim', 'Wooyoung Keum'],
+      venue: '1st Korean Society of Music Informatics (KSMI) Conference · Extended Abstract',
+      note: 'Oral, Poster',
       links: [],
     },
     {
-      category: 'Domestic',
-      year: '2026',
-      title: 'Towards Controllable Percussion: Revisiting DrumBlender.',
-      authors: ['Minjun Kim', 'Wooyoung Keum'],
-      venue: '1st Korean Society of Music Informatics (KSMI) Conference · Seoul, South Korea',
-      note: 'Extended abstract · Non-archival · Short Oral',
-      links: [],
+      year: '2025',
+      tag: 'ISMIR',
+      tagColor: '#58a6ff',
+      title: 'Exploring Pansori Generation with ACE-Step',
+      authors: ['Seola Cho', 'Minjun Kim', 'Dasaem Jeong'],
+      venue: '26th International Society for Music Information Retrieval (ISMIR) Conference · Late-Breaking Demo',
+      note: 'Poster',
+      links: [
+        { label: 'LINK', url: 'https://ismir2025program.ismir.net/lbd_463.html' },
+        { label: 'DEMO', url: 'https://jarammm.github.io/pansorigen/' },
+      ],
     },
+
   ],
 
   works: [],
 
-  // Set file to a PDF path, such as assets/cv.pdf.
+  // Set file to a PDF path, such as assets/CV_MinjunKim.pdf.
   cv: {
-    file: '',
+    file: 'assets/CV_MinjunKim.pdf',
     updated: '',
   },
 
