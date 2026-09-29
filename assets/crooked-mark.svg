@@ -2,28 +2,32 @@
   <defs>
     <filter id="ink" x="-5%" y="-5%" width="110%" height="110%">
       <feTurbulence type="fractalNoise" baseFrequency="0.012 0.022" numOctaves="2" seed="7" result="noise">
-        <animate attributeName="baseFrequency" values="0.012 0.022;0.016 0.018;0.009 0.027;0.012 0.022" dur="127s" repeatCount="indefinite"/>
+        <animate attributeName="baseFrequency" values="0.012 0.022;0.013 0.021;0.011 0.023;0.012 0.022" dur="410s" repeatCount="indefinite"/>
       </feTurbulence>
       <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G">
-        <animate attributeName="scale" values="4;13;6;4" dur="163s" repeatCount="indefinite"/>
+        <animate attributeName="scale" values="4;6;3.8;4" dur="470s" repeatCount="indefinite"/>
       </feDisplacementMap>
     </filter>
   </defs>
   <g stroke="#d3d0c9" stroke-linecap="round" stroke-linejoin="round" filter="url(#ink)">
     <g stroke-width="1.55" opacity=".82">
-      <animateTransform attributeName="transform" type="translate" values="0 0;28 -22;-21 27;0 0" dur="113s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="translate" values="0 0;7 -5;-5 6;0 0" dur="360s" repeatCount="indefinite"/>
       <path d="M298 36c-21 16-49 40-58 73-8 30 1 50-29 75-18 15-50 12-63 38-11 21 6 46 43 54 43 9 62 24 62 51 0 33-34 50-26 82 6 25 51 38 67 64 17 28-14 60-57 93"/>
-      <path d="M255 70c14 19 27 35 27 61 0 37-28 53-42 76"/>
-      <path d="M132 260c30-3 53 6 68 29 14 21 10 47-10 70-16 18-29 38-21 64">
-        <animate attributeName="d" values="M132 260c30-3 53 6 68 29 14 21 10 47-10 70-16 18-29 38-21 64;M132 260c16-22 62-1 75 19 25 37-2 64-17 82-28 31-38 45-21 64;M132 260c30-3 53 6 68 29 14 21 10 47-10 70-16 18-29 38-21 64" dur="79s" repeatCount="indefinite"/>
+      <path d="M255 70c14 19 27 35 27 61 0 37-28 53-42 76">
+        <animate attributeName="d" values="M255 70c14 19 27 35 27 61 0 37-28 53-42 76;M255 70c18 17 30 35 29 62-2 38-29 55-44 76;M255 70c14 19 27 35 27 61 0 37-28 53-42 76" dur="330s" repeatCount="indefinite"/>
       </path>
-      <path d="M319 172c-12 18-39 24-45 49-4 17 5 30 27 47 21 16 44 35 42 66"/>
+      <path d="M132 260c30-3 53 6 68 29 14 21 10 47-10 70-16 18-29 38-21 64">
+        <animate attributeName="d" values="M132 260c30-3 53 6 68 29 14 21 10 47-10 70-16 18-29 38-21 64;M132 260c27-7 56 4 69 27 17 25 8 50-11 72-19 21-31 39-21 64;M132 260c30-3 53 6 68 29 14 21 10 47-10 70-16 18-29 38-21 64" dur="290s" repeatCount="indefinite"/>
+      </path>
+      <path d="M319 172c-12 18-39 24-45 49-4 17 5 30 27 47 21 16 44 35 42 66">
+        <animate attributeName="d" values="M319 172c-12 18-39 24-45 49-4 17 5 30 27 47 21 16 44 35 42 66;M319 172c-15 16-41 22-46 49-4 19 7 31 28 48 24 17 46 34 42 66;M319 172c-12 18-39 24-45 49-4 17 5 30 27 47 21 16 44 35 42 66" dur="370s" repeatCount="indefinite"/>
+      </path>
       <path d="M159 428c13 19 35 21 69 21 29 0 53 10 60 32"/>
       <path d="M348 369c-4 31-27 47-21 70 5 18 30 31 45 40"/>
       <path d="M238 575c-17 17-20 28-9 42"/>
     </g>
     <g stroke-width=".7" opacity=".57">
-      <animateTransform attributeName="transform" type="translate" values="0 0;-19 24;23 -18;0 0" dur="149s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="translate" values="0 0;-5 6;6 -4;0 0" dur="430s" repeatCount="indefinite"/>
       <path d="M310 48c-20 17-45 39-49 67m-3 20c-3 16-9 31-27 43"/>
       <path d="M140 232c-6 25 17 42 49 49m14 5c29 11 51 25 52 43"/>
       <path d="M209 363c-12 14-20 31-18 48m15 19c12 9 31 11 51 14"/>
@@ -32,7 +36,7 @@
       <path d="M340 440c9 19 26 25 39 37"/>
     </g>
     <g stroke-width=".9" opacity=".69">
-      <animateTransform attributeName="transform" type="rotate" values="0 250 325;8 250 325;-7 250 325;0 250 325" dur="103s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="rotate" values="0 250 325;1.6 250 325;-1.4 250 325;0 250 325" dur="310s" repeatCount="indefinite"/>
       <path d="m115 243 27-4m-14 10 22-5m-10 10 27-6"/>
       <path d="m303 158 26-11m-20 18 28-11m-20 18 17-6"/>
       <path d="m152 406-31 14m39-7-27 17m36-10-31 18"/>
@@ -40,14 +44,14 @@
       <path d="m276 520 26-4m-32 12 32-5m-40 14 27-6"/>
     </g>
     <g stroke-width="1.1" opacity=".43" transform="translate(7 -4)">
-      <animateTransform attributeName="transform" type="translate" values="7 -4;27 -18;-15 21;7 -4" dur="137s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="translate" values="7 -4;12 -8;3 1;7 -4" dur="390s" repeatCount="indefinite"/>
       <path d="M149 221c-10 19 3 43 39 53"/>
       <path d="M226 408c8 25 43 34 67 59"/>
       <path d="M326 371c-3 30-25 49-18 68"/>
     </g>
   </g>
   <g stroke="#a394aa" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".62">
-    <animateTransform attributeName="transform" type="translate" values="0 0;19 23;-22 -15;0 0" dur="173s" repeatCount="indefinite"/>
+    <animateTransform attributeName="transform" type="translate" values="0 0;6 7;-7 -5;0 0" dur="450s" repeatCount="indefinite"/>
     <path d="M246 83c-9 24-4 39-19 62m-20 38c-14 9-29 13-39 29" stroke-width="2" transform="translate(8 -4)"/>
     <path d="M197 291c22 15 31 29 29 48m7 65c8 16 24 27 44 37" stroke-width="2.3" transform="translate(-5 3)"/>
     <path d="M321 378c-10 20-11 39-3 54m-29 86c-11 15-26 24-41 37" stroke-width="1.9" transform="translate(7 0)"/>

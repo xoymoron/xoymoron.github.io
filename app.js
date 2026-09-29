@@ -1,5 +1,5 @@
-import { content } from './content.js';
-import { initStudio } from './studio.js';
+import { content } from './content.js?v=20260929b';
+import { initStudio } from './studio.js?v=20260929b';
 
 // Keep route IDs aligned with section IDs and navigation links in index.html.
 const routeNames = new Map([

@@ -23,13 +23,13 @@
         document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#090909' : '#efeee8';
       })();
     </script>
-    <link rel="stylesheet" href="styles.css">
-    <script type="module" src="app.js"></script>
-    <script type="module" src="glitch.js"></script>
+    <link rel="stylesheet" href="styles.css?v=20260929b">
+    <script type="module" src="app.js?v=20260929b"></script>
+    <script type="module" src="glitch.js?v=20260929b"></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <div class="glitch-field" aria-hidden="true">
+    <div class="glitch-field" aria-hidden="true" style="position:fixed;inset:0;overflow:hidden;pointer-events:none">
       <div class="glitch-mark">
         <div class="mark-base"></div>
         <div class="mark-slice mark-slice-a"></div>
@@ -40,7 +40,7 @@
         <div class="diagram-slice diagram-slice-a"></div>
         <div class="diagram-slice diagram-slice-b"></div>
       </div>
-      <canvas class="glitch-pixels"></canvas>
+      <canvas class="glitch-pixels" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
     </div>
     <div class="site-shell">
       <header class="site-header">

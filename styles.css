@@ -82,7 +82,7 @@ body {
   right: -3%;
   width: min(46vw, 540px);
   aspect-ratio: 500 / 650;
-  animation: mark-drift 143s ease-in-out infinite alternate;
+  animation: mark-drift 320s ease-in-out infinite alternate;
 }
 
 .diagram-mark {
@@ -91,7 +91,7 @@ body {
   left: max(-310px, -23vw);
   width: min(57vw, 700px);
   aspect-ratio: 820 / 720;
-  animation: diagram-drift 181s ease-in-out infinite alternate;
+  animation: diagram-drift 390s ease-in-out infinite alternate;
 }
 
 .mark-base,
@@ -104,12 +104,12 @@ body {
 
 .mark-base,
 .mark-slice {
-  background: url("assets/crooked-mark.svg") center / contain no-repeat;
+  background: url("assets/crooked-mark.svg?v=20260929b") center / contain no-repeat;
 }
 
 .diagram-base,
 .diagram-slice {
-  background: url("assets/dislocated-diagram.svg") center / contain no-repeat;
+  background: url("assets/dislocated-diagram.svg?v=20260929b") center / contain no-repeat;
 }
 
 .mark-base {
@@ -135,7 +135,7 @@ body {
 
 .diagram-base {
   opacity: .7;
-  animation: diagram-tone 97s ease-in-out infinite alternate;
+  animation: diagram-tone 360s ease-in-out infinite alternate;
 }
 
 .diagram-slice {
@@ -948,18 +948,18 @@ main {
 
 /* Motion. */
 @keyframes mark-drift {
-  from { transform: translate3d(0, 0, 0) rotate(-1deg); }
-  to { transform: translate3d(-13px, 19px, 0) rotate(1deg); }
+  from { transform: translate3d(0, 0, 0) rotate(-.4deg); }
+  to { transform: translate3d(-5px, 7px, 0) rotate(.4deg); }
 }
 
 @keyframes diagram-drift {
-  from { transform: translate3d(8px, -13px, 0) rotate(1deg); }
-  to { transform: translate3d(-10px, 17px, 0) rotate(-1deg); }
+  from { transform: translate3d(3px, -5px, 0) rotate(.3deg); }
+  to { transform: translate3d(-4px, 6px, 0) rotate(-.3deg); }
 }
 
 @keyframes diagram-tone {
-  from { filter: hue-rotate(-7deg) saturate(.8); }
-  to { filter: hue-rotate(12deg) saturate(1.15); }
+  from { filter: hue-rotate(-3deg) saturate(.94); }
+  to { filter: hue-rotate(4deg) saturate(1.06); }
 }
 
 @keyframes glitch-offset-a {
@@ -1967,11 +1967,11 @@ main {
   }
 
   .mark-base, .mark-slice {
-    background-image: url("assets/crooked-mark-still.svg");
+    background-image: url("assets/crooked-mark-still.svg?v=20260929b");
   }
 
   .diagram-base, .diagram-slice {
-    background-image: url("assets/dislocated-diagram-still.svg");
+    background-image: url("assets/dislocated-diagram-still.svg?v=20260929b");
   }
 
   *, *::before, *::after {
