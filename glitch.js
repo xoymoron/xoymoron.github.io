@@ -39,10 +39,10 @@ if (context) {
     const visibleBottom = Math.min(height, rect.bottom);
     const centerX = visibleLeft + (visibleRight - visibleLeft) * (.26 + Math.random() * .48);
     const centerY = visibleTop + (visibleBottom - visibleTop) * (.26 + Math.random() * .48);
-    const size = Math.min((visibleRight - visibleLeft) * (.36 + Math.random() * .18), 190);
+    const size = Math.min((visibleRight - visibleLeft) * (.18 + Math.random() * .09), 95);
     const half = size / 2;
 
-    context.globalAlpha = .92;
+    context.globalAlpha = .58;
     context.fillStyle = colors[Math.floor(Math.random() * colors.length)];
     context.beginPath();
     context.moveTo(centerX - half, centerY - half * .43);

@@ -76,6 +76,27 @@ body {
   mix-blend-mode: multiply;
 }
 
+.ambient-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ambient-lines path {
+  fill: none;
+  stroke: #bbb4bd;
+  stroke-width: .75;
+  vector-effect: non-scaling-stroke;
+  opacity: .2;
+  filter: url(#ambient-line-wave);
+}
+
+:root[data-theme="light"] .ambient-lines path {
+  stroke: #514d55;
+  opacity: .18;
+}
+
 .glitch-mark {
   position: absolute;
   top: 5%;
@@ -1964,6 +1985,10 @@ main {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .ambient-lines {
+    display: none;
   }
 
   .mark-base, .mark-slice {
